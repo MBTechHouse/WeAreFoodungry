@@ -1,0 +1,47 @@
+{
+  "name": "WeAreFoodungry",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "start": "react-native start",
+    "test": "jest",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@eva-design/eva": "^1.2.0",
+    "@ui-kitten/eva-icons": "^4.2.0",
+    "firebase": "^7.6.2",
+    "native-base": "2.13.4",
+    "prop-types": "^15.6.0",
+    "react": "16.9.0",
+    "react-native": "0.61.5",
+    "react-native-elements": "^v1.0.0-beta5",
+    "react-native-gesture-handler": "^1.5.0",
+    "react-native-parallax-scroll-view": "^0.21.3",
+    "react-native-reanimated": "^1.4.0",
+    "react-native-screens": "^2.0.0-alpha.32",
+    "react-native-shadow": "^1.2.2",
+    "react-native-snap-carousel": "^3.8.4",
+    "react-native-svg": "^9.13.3",
+    "react-native-ui-kitten": "^4.2.0",
+    "react-native-vector-icons": "^6.6.0",
+    "react-navigation": "^4.0.10",
+    "react-navigation-stack": "^1.10.3",
+    "react-navigation-tabs": "^2.5.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/runtime": "^7.8.4",
+    "@react-native-community/eslint-config": "^0.0.7",
+    "babel-jest": "^25.1.0",
+    "eslint": "^6.8.0",
+    "jest": "^25.1.0",
+    "metro-react-native-babel-preset": "^0.58.0",
+    "react-test-renderer": "16.9.0"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
