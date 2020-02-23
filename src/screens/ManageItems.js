@@ -58,8 +58,84 @@ export default class ManageItems extends React.Component{
     let restUUID = firebase.auth().currentUser.uid
     this.fetchItemsFromDB(restUUID)
   }
+
+  shiftCategory = (direction, categoryId, currentSelected=false) => {
+    let categoryList = [...this.state.categoryList]
+    let categoryIndex = 0
+    for(categoryIndex=0;categoryIndex<categoryList.length;categoryIndex++){
+        if(categoryList[categoryIndex].categoryId==categoryId){
+            break
+        }
+    }
+    let tempCategory = categoryList[categoryIndex];
+    if(direction) {
+        categoryList[categoryIndex] = categoryList[categoryIndex+1];
+        categoryList[categoryIndex+1] = tempCategory; 
+    } else {
+        categoryList[categoryIndex] = categoryList[categoryIndex-1];
+        categoryList[categoryIndex-1] = tempCategory;
+    }
+    this.setState({categoryList:categoryList})
+  }
+
+  shiftFoodItems = (direction, foodItemId) => {
+  let items = {...this.state.items}
+  let itemsList = items[this.state.currentCategorySelected]
+  let foodIndex = 0
+  for(foodIndex=0;foodIndex<itemsList.length;foodIndex++){
+      if(itemsList[foodIndex].foodItemId==foodItemId){
+          break
+      }
+  }
+  let tempFoodItem = itemsList[foodIndex];
+  if(!direction) {
+    itemsList[foodIndex] = itemsList[foodIndex+1];
+    itemsList[foodIndex+1] = tempFoodItem; 
+  } else {
+    itemsList[foodIndex] = itemsList[foodIndex-1];
+    itemsList[foodIndex-1] = tempFoodItem;
+  }
+  items[this.state.currentCategorySelected] = itemsList
+  this.setState({items:items})
+}
+
+  addItemToList() {
+      let items = {...this.state.items}
+      let title = this.state.foodItemName
+      let description = this.state.foodItemDescription
+      let actualPrice = this.state.foodItemActualPrice
+      if(title!=="" && actualPrice!=="") {
+        if(/^\d+$/.test(actualPrice)) {
+            let itemObject = {} 
+            itemObject["foodItemId"] = "food_"+Math.round((new Date()).getTime() / 1000);
+            itemObject["category"] = this.state.currentCategorySelected
+            itemObject["title"] = title
+            itemObject["description"] = description
+            itemObject["actualPrice"] = actualPrice
+            itemObject["type"] = 0
+            items[this.state.currentCategorySelected].push(itemObject)
+            this.setState({items:items, isVisible:false})
+        } else {
+            alert("Please enter valid price")
+        }
+      } else
+        alert("Please fill mandatory fields")
+  }
+
   
-  
+  deleteFoodItem(foodItemId){
+    let items = {...this.state.items}
+    let itemsList = items[this.state.currentCategorySelected]
+    let foodIndex = 0
+    for(foodIndex=0;foodIndex<itemsList.length;foodIndex++){
+        if(itemsList[foodIndex].foodItemId==foodItemId){
+            break
+        }
+    }
+    itemsList.splice(foodIndex, 1); 
+    items[this.state.currentCategorySelected] = itemsList
+    this.setState({items:items})
+  }
 
   renderItemList()
   {
@@ -108,6 +184,7 @@ export default class ManageItems extends React.Component{
             name="delete" 
             size={30} 
             color="#ef5350"
+            onPress={()=>{this.deleteFoodItem(item.foodItemId)}}
         />
         {this.state.items[this.state.currentCategorySelected].length!==undefined && this.state.items[this.state.currentCategorySelected][this.state.items[this.state.currentCategorySelected].length-1].foodItemId !== item.foodItemId ?
         <Ionicons
@@ -178,69 +255,6 @@ export default class ManageItems extends React.Component{
   }
 
   _handleViewportLeave = ()=>{
-  }
-
-  shiftCategory = (direction, categoryId, currentSelected=false) => {
-    let categoryList = [...this.state.categoryList]
-    let categoryIndex = 0
-    for(categoryIndex=0;categoryIndex<categoryList.length;categoryIndex++){
-        if(categoryList[categoryIndex].categoryId==categoryId){
-            break
-        }
-    }
-    let tempCategory = categoryList[categoryIndex];
-    if(direction) {
-        categoryList[categoryIndex] = categoryList[categoryIndex+1];
-        categoryList[categoryIndex+1] = tempCategory; 
-    } else {
-        categoryList[categoryIndex] = categoryList[categoryIndex-1];
-        categoryList[categoryIndex-1] = tempCategory;
-    }
-    this.setState({categoryList:categoryList})
-  }
-
-  shiftFoodItems = (direction, foodItemId) => {
-  let items = {...this.state.items}
-  let itemsList = items[this.state.currentCategorySelected]
-  let foodIndex = 0
-  for(foodIndex=0;foodIndex<itemsList.length;foodIndex++){
-      if(itemsList[foodIndex].foodItemId==foodItemId){
-          break
-      }
-  }
-  let tempFoodItem = itemsList[foodIndex];
-  if(!direction) {
-    itemsList[foodIndex] = itemsList[foodIndex+1];
-    itemsList[foodIndex+1] = tempFoodItem; 
-  } else {
-    itemsList[foodIndex] = itemsList[foodIndex-1];
-    itemsList[foodIndex-1] = tempFoodItem;
-  }
-  items[this.state.currentCategorySelected] = itemsList
-  this.setState({items:items})
-}
-
-  addItemToList() {
-      let items = {...this.state.items}
-      let title = this.state.foodItemName
-      let description = this.state.foodItemDescription
-      let actualPrice = this.state.foodItemActualPrice
-      if(title!=="" && actualPrice!=="") {
-        if(/^\d+$/.test(actualPrice)) {
-            let itemObject = {} 
-            itemObject["foodItemId"] = "food_"+Math.round((new Date()).getTime() / 1000);
-            itemObject["category"] = this.state.currentCategorySelected
-            itemObject["title"] = title
-            itemObject["description"] = description
-            itemObject["actualPrice"] = actualPrice
-            itemObject["type"] = 0
-            items[this.state.currentCategorySelected].push(itemObject)
-            this.setState({items:items, isVisible:false})
-        } else {
-            alert("Please enter valid price")
-        }
-      } else
-        alert("Please fill mandatory fields")
   }
 
   render()
