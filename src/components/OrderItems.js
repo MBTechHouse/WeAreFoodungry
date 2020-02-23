@@ -199,10 +199,6 @@ export default class Orderitems extends React.Component{
 
   render()
   {
-    console.log("Total Price",this.state.totalPrice)
-    console.log("Total Items",this.state.totalItems)
-    console.log("Cart", this.state.cart)
-    console.log("nav", this.props.navigation.getParam('ordermode'))
   return(
     <View>
   <ScrollView style={styles.container}>
