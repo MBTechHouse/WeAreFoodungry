@@ -17,6 +17,7 @@ import ViewCart from './ViewCart'
 import HomeScreen from './HomeScreen.js'
 import Login from './Login.js'
 import Signup from './Signup.js'
+import ManageItems from '../screens/ManageItems'
 
 import AddButton from '../components/BottomNavHelper/AddButton'
 
@@ -32,24 +33,11 @@ const OrderNavigator = createStackNavigator(
 );
 
 const BottomNavigator = createBottomTabNavigator({
-  Victor: {
-    screen: Victor,
-    navigationOptions: ({navigation}) =>( {
-      tabBarIcon:({ focused, horizontal, tintColor }) => {
-        console.log(navigation.state.index, tintColor)
-        if (navigation.state.routeName === "Victor") {
-          return <Icon name='people-outline' width={25} height={25} fill={tintColor} />
-        }
-
-    }
-
-    })
-  },
-  Search: {
-    screen: Search,
+  ManageItems: {
+    screen: ManageItems,
     navigationOptions: ({navigation}) =>({
       tabBarIcon:({ focused, horizontal, tintColor }) => {
-        if (navigation.state.routeName === "Search") {
+        if (navigation.state.routeName === "ManageItems") {
           return <Icon name='search' width={25} height={25} fill={tintColor} />
         }
     }
@@ -62,22 +50,10 @@ const BottomNavigator = createBottomTabNavigator({
       tabBarIcon: <AddButton />
     }
   },
-  Cart: {
-    screen: ViewCart,
-    navigationOptions: ({navigation}) =>({
-      tabBarIcon:({ focused, horizontal, tintColor }) => {
-        if (navigation.state.routeName === "Cart") {
-          return <Icon name='shopping-cart-outline' width={25} height={25} fill={tintColor} />
-        }
-    }
-
-    })
-  },
   Profile: {
     screen: Profile,
     navigationOptions: ({navigation}) =>({
       tabBarIcon:({ focused, horizontal, tintColor }) => {
-        console.log(navigation.state.index)
         if (navigation.state.routeName === "Profile") {
           return <Icon name='person' width={25} height={25} fill={tintColor} />
         }
@@ -95,7 +71,6 @@ const BottomNavigator = createBottomTabNavigator({
 const MainNav = createStackNavigator({
   Login: Login,
   Signup: Signup,
-  HomeScreen: HomeScreen,
   MainFlow: BottomNavigator},
   {
     initialRouteName: 'Login',
