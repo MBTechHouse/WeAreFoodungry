@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Button, Layout, Text } from 'react-native-ui-kitten';
-import SettingsScreen from '../components/Profile/Profile'
+import SettingsScreen from './Profile'
 import contactData from './Profile/contact.json'
 
 export default class Profile extends React.Component{

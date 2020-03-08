@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Image, TouchableOpacity, ActivityIndicator, ToastAndroid, ProgressBarAndroid, Text, Dimensions } from 'react-native';
 import { Container, View, Left, Right, Button, Icon, Item, Input, Textarea } from 'native-base';
-//import { AccessToken, LoginManager } from 'react-native-fbsdk';
-//import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
+import Quote from '../components/Quote.js';
 import firebase from 'firebase';
 
 let w = Dimensions.get('screen').width;
@@ -46,72 +45,6 @@ export default class Login extends Component {
      .catch(() => this.setState({hasError: true, errorText: 'Invalid Credentials !', loading: false }));
   }
 
-  /*async googlelogin() {
-    try {
-      const isSignedIn = await GoogleSignin.isSignedIn();
-      if (isSignedIn) {
-        await GoogleSignin.revokeAccess();
-        await GoogleSignin.signOut();
-      }
-        await GoogleSignin.configure({
-          scopes: ["profile", "email"],
-          webCientId: '463691451730-rirvsp1ikqn8luvh6ob4b3l45t5uh01m.apps.googleusercontent.com'
-        });
-        const data = await GoogleSignin.signIn();
-        this.setState({ loading: true });
-        GoogleSignin.getTokens().then(async (res) => {
-          const credential = firebase.auth.GoogleAuthProvider.credential(null, res.accessToken)
-          const firebaseUserCredential = await firebase.auth().signInWithCredential(credential);
-          let userDet = firebaseUserCredential.user;
-          //console.log(JSON.stringify(userDet));
-          firebase.database().ref().child('users').child(userDet.uid).set({
-            email: userDet.email? userDet.email: '',
-            name: userDet.displayName? userDet.displayName: '',
-            phone: userDet.phoneNumber? userDet.phoneNumber: '',
-          });
-        });
-        this.setState({ loading: false });
-      } catch (e) {
-        if (e.code === statusCodes.SIGN_IN_CANCELLED)
-          return;
-        this.setState({ loading: false, hasError: true, errorText: 'Error while Logging In' });
-        if (e.code === statusCodes.SIGN_IN_REQUIRED)
-          return;
-        console.error(e);
-      }
-  }
-
-  async fblogin() {
-    try {
-      let fb = LoginManager;
-      const test = await AccessToken.getCurrentAccessToken();
-      if (!test) fb.logOut();
-      const result = await fb.logInWithPermissions(['public_profile', 'email']);
-      if (result.isCancelled) {
-        return;
-      }
-      //console.log(`Login success with permissions: ${result.grantedPermissions.toString()}`);
-      this.setState({ loading: true });
-      const data = await AccessToken.getCurrentAccessToken();
-      if (!data) {
-        throw new Error('Something went wrong obtaining the users access token');
-      }
-      const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
-      const firebaseUserCredential = await firebase.auth().signInWithCredential(credential);
-      let userDet = firebaseUserCredential.user;
-      //console.log(JSON.stringify(userDet))
-      firebase.database().ref().child('users').child(userDet.uid).set({
-        email: userDet.email? userDet.email: '',
-        name: userDet.displayName? userDet.displayName: '',
-        phone: userDet.phoneNumber? userDet.phoneNumber: '',
-      });
-      this.setState({ loading: false });
-    } catch (e) {
-      this.setState({ loading: false, hasError: true, errorText: 'Error while Logging In' });
-      console.error(e);
-    }
-  }*/
-
   loadingSpinner() {
     if (this.state.loading) {
       return <ActivityIndicator style={{ marginTop: 25 }} size="large" />;
@@ -127,15 +60,6 @@ export default class Login extends Component {
             <Text style={{color: '#01bff1'}}>Sign Up</Text>
           </Button>
         </View>
-        {/*<Text style={{ fontFamily: 'serif', fontSize: 15, marginTop: '5%', marginRight: '2%', color: '#333', fontWeight: 'bold' }}>OR</Text>
-        <View style={{alignItems: 'center', flexDirection: 'row', justifyContent: 'center', height: '17%', marginTop: '5%' }}>
-          <TouchableOpacity onPress={() => this.googlelogin()} style={{ width: '15%', height: '100%', marginRight: '7%' }}>
-            <Image source={require('../resources/Images/google.png')} style={{ resizeMode: 'contain', height: '100%', width: '100%' }} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.fblogin()} style={{ width: '15%', height: '100%', marginRight: '7%' }}>
-            <Image source={require('../resources/Images/fb.png')} style={{ resizeMode: 'contain', height: '100%', width: '100%' }} />
-          </TouchableOpacity>
-        </View>*/}
       </View>
     )
   }
@@ -190,7 +114,7 @@ export default class Login extends Component {
        <View style={{ position: 'absolute', bottom: 0, width: w/0.27, height: 0, backgroundColor: 'transparent', borderLeftWidth: w*2.5, borderBottomWidth: h/2, borderLeftColor: 'transparent', borderRightColor: 'transparent', borderBottomColor: '#D2F3FC' }} />
        <View style={{ position: 'absolute', bottom: '15%', width:'90%', justifyContent: 'center', alignItems: 'center'}}>
          <View style={{ width: '15%', height: '2%', backgroundColor: '#888'}} />
-         <Quote />
+          <Quote />
          <View style={{ width: '15%', height: '2%', backgroundColor: '#888'}} />
        </View>
        <ProgressBarAndroid style={{ position: 'absolute', bottom: '5%', width: '100%', color: '#01bff1' }} styleAttr="Horizontal" indeterminate={true} />
