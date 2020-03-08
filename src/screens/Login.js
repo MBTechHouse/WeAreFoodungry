@@ -4,7 +4,6 @@ import { Container, View, Left, Right, Button, Icon, Item, Input, Textarea } fro
 //import { AccessToken, LoginManager } from 'react-native-fbsdk';
 //import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
 import firebase from 'firebase';
-import Quote from '../HelperComponents/Quote';
 
 let w = Dimensions.get('screen').width;
 let h = Dimensions.get('screen').height;

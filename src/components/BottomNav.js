@@ -8,29 +8,49 @@ import {
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack'
 import {createAppContainer} from 'react-navigation'
-import Orders from './Orders'
-import Search from './Search'
-import Victor from './Victor'
-import Profile from './Profile'
-import OrderItems from './OrderItems'
-import ViewCart from './ViewCart'
-import HomeScreen from './HomeScreen.js'
-import Login from './Login.js'
-import Signup from './Signup.js'
+import Received from '../screens/Orders/Received.js'
+import Preparing from '../screens/Orders/Ready.js/index.js'
+import Ready from '../screens/Orders/Ready.js'
+import Completed from '../screens/Orders/Completed.js'
+import Profile from '../screens/Profile'
+import Login from '../screens/Login.js'
+import Signup from '../screens/Signup.js'
 import ManageItems from '../screens/ManageItems'
 
-import AddButton from '../components/BottomNavHelper/AddButton'
-
-const OrderNavigator = createStackNavigator(
-  {
-    Orders: Orders,
-    OrderItemList: OrderItems,
-    ViewCart: ViewCart
+const OrdersNavigator = createMaterialTopTabNavigator ({
+  Received: {
+    screen: Received,
+    navigationOptions:{
+      tabBarIcon: ({ focused, tintcolor }) => (
+        <Icon name='search' width={25} height={25} fill={tintColor} />
+      )
+    }
   },
-  {
-    initialRouteName: 'Orders',
-  }
-);
+  Preparing: {
+    screen: Preparing,
+    navigationOptions:{
+      tabBarIcon: ({ tintcolor }) => (
+        <Icon name='search' width={25} height={25} fill={tintColor} />
+      )
+    }
+  },
+  Ready: {
+    screen: Ready,
+    navigationOptions:{
+      tabBarIcon: ({ focused, tintcolor }) => (
+        <Icon name='search' width={25} height={25} fill={tintColor} />
+      )
+    }
+  },
+  Completed: {
+    screen: Completed,
+    navigationOptions:{
+      tabBarIcon: ({ tintcolor }) => (
+        <Icon name='search' width={25} height={25} fill={tintColor} />
+      )
+    }
+  },
+});
 
 const BottomNavigator = createBottomTabNavigator({
   ManageItems: {
@@ -40,15 +60,18 @@ const BottomNavigator = createBottomTabNavigator({
         if (navigation.state.routeName === "ManageItems") {
           return <Icon name='search' width={25} height={25} fill={tintColor} />
         }
-    }
-
+      }
     })
   },
-  Orders:{
-    screen: OrderNavigator,
-    navigationOptions: {
-      tabBarIcon: <AddButton />
-    }
+  Orders: {
+    screen: OrdersNavigator,
+    navigationOptions: ({navigation}) =>({
+      tabBarIcon:({ focused, horizontal, tintColor }) => {
+        if (navigation.state.routeName === "Orders") {
+          return <Icon name='search' width={25} height={25} fill={tintColor} />
+        }
+      }
+    })
   },
   Profile: {
     screen: Profile,
