@@ -69,7 +69,7 @@ export default class Received extends React.Component {
     showInfo(oid, order) {
         if(this.state.toggle[oid]) {
             return (
-                <View style={{width:'85%', borderRadius:20, elevation: 5, padding: 12, backgroundColor: '#fdfdfd' }} >
+                <View style={{width:'85%', borderBottomLeftRadius: 20, borderBottomRightRadius: 20, elevation: 5, padding: 12, backgroundColor: '#fdfdfd' }} >
                     <View style={{ flexDirection: 'row'}}>
                         <Text style={{ fontFamily: 'serif', fontWeight: 'bold', fontSize: 12 }}>Item</Text>
                         <Text style={{ fontWeight: 'bold', alignSelf: 'center', position: 'absolute', fontSize: 12, right: 10, fontFamily: 'serif'}}>Qty</Text>
@@ -86,7 +86,7 @@ export default class Received extends React.Component {
 
     orderCard(oid, order) {
         return (
-        <View style={{ width:'100%', flexDirection:'row', height:'13%' }} >
+        <View style={{ width:'100%', flexDirection:'row', marginTop: '3%' }} >
 
             <View style={{ marginLeft: '3%', width: '5%', alignItems: 'center', justifyContent: 'center' }}>
                 <TouchableOpacity onPress={this.back.bind(this, oid)}>
