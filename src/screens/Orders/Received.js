@@ -180,7 +180,12 @@ export default class Received extends React.Component {
         if(this.state.myOrders)
             oids = Object.keys(this.state.myOrders)
         for(let i=0; i<oids.length; i++)
-            if(this.state.orders[oids[i]].status == 0)
+
+        if(this.state.orders 
+            && this.state.orders!==null 
+            && this.state.orders[oids[i]]
+            && this.state.orders[oids[i]]!==null
+            && this.state.orders[oids[i]].status == 0)
                 renderArray.push(this.orderCard(oids[i], this.state.orders[oids[i]]))
         return renderArray
     }
