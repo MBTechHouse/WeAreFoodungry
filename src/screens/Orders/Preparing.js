@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableOpacity, View, ToastAndroid } from 'react-native';
+import { TouchableOpacity, View, ScrollView } from 'react-native';
 import { Button, Icon, Text } from 'react-native-ui-kitten';
 import firebase from 'firebase';
 
@@ -52,6 +52,13 @@ export default class Received extends React.Component {
         return at.getHours()+":"+at.getMinutes()
     }
 
+    formDate(date) {
+        if(date == '')
+          return '-/-/-'
+        let at = new Date(date)
+        return at.getDate()+"/"+at.getMonth()+"/"+at.getFullYear()
+    }
+
     foodItems(order) {
         let foodItems = []
         let names = Object.keys(order.items)
@@ -86,18 +93,15 @@ export default class Received extends React.Component {
 
     orderCard(oid, order) {
         return (
-        <View style={{ width:'100%', flexDirection:'row', marginTop: '3%' }} >
+        <View style={{ width:'100%', flexDirection:'row', marginTop: '2%', marginBottom: '2%' }} >
 
-            <View style={{ marginLeft: '3%', width: '5%', alignItems: 'center', justifyContent: 'center' }}>
-                <TouchableOpacity onPress={this.back.bind(this, oid)}>
-                <Icon name='arrow-ios-back' width={40} height={40} tintColor='#cc1030' />
-                </TouchableOpacity>
-            </View>
-
-            <View style={{width:'85%', height:'100%', justifyContent: 'flex-start', alignItems: 'center' }}>
+            <View style={{width:'90%', height:'100%', justifyContent: 'flex-start', alignItems: 'center', marginLeft: '2%' }}>
                 <TouchableOpacity style={{width:'95%', borderRadius:20, elevation: 5, padding: 12, backgroundColor: '#fdfdfd' }}
                     onPress={this.toggle.bind(this, oid)}
                 >
+                    <View style={{ flexDirection: 'row'}}>
+                        <Text style={{ alignSelf: 'center', position: 'absolute', fontSize: 11, right: 5}}>{this.formDate(parseFloat(oid.split("_")[1]))}</Text>
+                    </View>
                     <View style={{ flexDirection: 'row'}}>
                         <Text style={{ fontSize: 12, fontFamily: 'serif', fontWeight: 'bold' }}>{order.email}</Text>
                     </View>
@@ -131,15 +135,17 @@ export default class Received extends React.Component {
             oids = Object.keys(this.state.myOrders)
         for(let i=0; i<oids.length; i++)
             if(this.state.orders[oids[i]].status == 1)
-                renderArray.unshift(this.orderCard(oids[i], this.state.orders[oids[i]]))
+                renderArray.push(this.orderCard(oids[i], this.state.orders[oids[i]]))
         return renderArray
     }
 
     render()
     {
         return (
-        <View style={{width:'100%', height:'100%'}}>
-            {this.renderItems()}
+        <View style={{ height: '100%', width: '100%', paddingTop: '2%'}}>
+            <ScrollView>
+                {this.renderItems()}
+            </ScrollView>
         </View>
         );
     }
