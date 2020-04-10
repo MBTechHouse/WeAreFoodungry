@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableOpacity, View, ToastAndroid } from 'react-native';
+import { TouchableOpacity, View, Modal, ToastAndroid, ScrollView } from 'react-native';
 import { Button, Icon, Text } from 'react-native-ui-kitten';
 import firebase from 'firebase';
 
@@ -8,7 +8,10 @@ export default class Received extends React.Component {
     state = {
         orders : {},
         myOrders: {},
-        toggle: {}
+        toggle: {},
+        ordDel: {},
+        delOid: 0,
+        chooseReason: false
     }
 
     componentDidMount() {
@@ -19,10 +22,13 @@ export default class Received extends React.Component {
                 if(o && mo)
                     this.setState({ orders: o.val(), myOrders: mo.val() }, () => {
                         let oids = Object.keys(this.state.myOrders)
-                        let temp = {}
-                        for(let i=oids.length-1; i>=Object.keys(this.state.toggle).length; i--)
-                            temp[oids[i]] = false
-                        this.setState({ toggle: temp })
+                        let temp1 = {}
+                        let temp2 = {}
+                        for(let i=oids.length-1; i>=Object.keys(this.state.toggle).length; i--) {
+                            temp1[oids[i]] = false
+                            temp2[oids[i]] = "#fdfdfd"
+                        }
+                        this.setState({ toggle: temp1, ordDel: temp2 })
                     })
             });
         });
@@ -37,6 +43,16 @@ export default class Received extends React.Component {
         this.setState({ toggle: temp })
     }
 
+    ordDel(oid) {
+        let temp = this.state.ordDel
+        if(temp[oid] == "#fdfdfd")
+            this.setState({ chooseReason: true, delOid: oid })
+        else {
+            temp[oid] = "#fdfdfd"
+            this.setState({ ordDel: temp })
+        }
+    }
+
     next(oid) {
         firebase.database().ref('orders/'+oid).update({ status: 1 })
     }
@@ -46,6 +62,13 @@ export default class Received extends React.Component {
           return '-:-'
         let at = new Date(time)
         return at.getHours()+":"+at.getMinutes()
+    }
+
+    formDate(date) {
+        if(date == '')
+          return '-/-/-'
+        let at = new Date(date)
+        return at.getDate()+"/"+at.getMonth()+"/"+at.getFullYear()
     }
 
     foodItems(order) {
@@ -65,7 +88,7 @@ export default class Received extends React.Component {
     showInfo(oid, order) {
         if(this.state.toggle[oid]) {
             return (
-                <View style={{width:'85%', borderBottomLeftRadius: 20, borderBottomRightRadius: 20, elevation: 5, padding: 12, backgroundColor: '#fdfdfd' }} >
+                <View style={{width:'85%', borderBottomLeftRadius: 20, borderBottomRightRadius: 20, elevation: 5, padding: 12, backgroundColor: this.state.ordDel[oid] }} >
                     <View style={{ flexDirection: 'row'}}>
                         <Text style={{ fontFamily: 'serif', fontWeight: 'bold', fontSize: 12 }}>Item</Text>
                         <Text style={{ fontWeight: 'bold', alignSelf: 'center', position: 'absolute', fontSize: 12, right: 10, fontFamily: 'serif'}}>Qty</Text>
@@ -82,18 +105,21 @@ export default class Received extends React.Component {
 
     orderCard(oid, order) {
         return (
-        <View style={{ width:'100%', flexDirection:'row', marginTop: '3%' }} >
+        <View style={{ width:'100%', flexDirection:'row', marginTop: '2%', marginBottom: '2%' }} >
 
-            <View style={{ marginLeft: '3%', width: '5%', alignItems: 'center', justifyContent: 'center' }}>
-                <TouchableOpacity disabled>
-                <Icon name='arrow-ios-back' width={40} height={40} tintColor='grey' />
+            <View style={{ marginLeft: '3%', marginRight: '1%', width: '5%', alignItems: 'center', justifyContent: 'center' }}>
+                <TouchableOpacity onPress={() => this.ordDel(oid)}>
+                <Icon name={this.state.ordDel[oid]=="#fdfdfd"?'close-outline':'undo-outline'} width={33} height={33} tintColor='#cc1030' />
                 </TouchableOpacity>
             </View>
 
-            <View style={{width:'85%', height:'100%', justifyContent: 'flex-start', alignItems: 'center' }}>
-                <TouchableOpacity style={{width:'95%', borderRadius:20, elevation: 5, padding: 12, backgroundColor: '#fdfdfd' }}
+            <View style={{width:'84%', height:'100%', justifyContent: 'flex-start', alignItems: 'center' }}>
+                <TouchableOpacity style={{width:'95%', borderRadius:20, elevation: 5, padding: 12, backgroundColor: this.state.ordDel[oid] }}
                     onPress={this.toggle.bind(this, oid)}
                 >
+                    <View style={{ flexDirection: 'row'}}>
+                        <Text style={{ alignSelf: 'center', position: 'absolute', fontSize: 11, right: 5}}>{this.formDate(parseFloat(oid.split("_")[1]))}</Text>
+                    </View>
                     <View style={{ flexDirection: 'row'}}>
                         <Text style={{ fontSize: 12, fontFamily: 'serif', fontWeight: 'bold' }}>{order.email}</Text>
                     </View>
@@ -119,6 +145,34 @@ export default class Received extends React.Component {
         )
     }
 
+    onDel(opt) {
+        // Request to admin with reason : opt
+        let temp = this.state.ordDel
+        temp[this.state.delOid] = '#ffcdc5'
+        this.setState({ ordDel: temp, chooseReason: false })
+    }
+
+    renderOptions()
+    {
+        let renderArray = []
+        let opts = [
+            "Test1",
+            "Test2"
+        ];
+
+        for(let i=0; i<opts.length; i++)
+                renderArray.push(
+                    <TouchableOpacity
+                        style={{ borderWidth: 1, borderColor: '#ffcdc5', borderRadius: 25, margin: 5 }}
+                        onPress={this.onDel.bind(this,opts[i])}
+                    >
+                        <Text style={{ padding: 7, color: '#555'}}>{opts[i]}</Text>
+                    </TouchableOpacity>
+                )
+
+        return renderArray
+    }
+
     renderItems()
     {
         let renderArray = [];
@@ -126,6 +180,7 @@ export default class Received extends React.Component {
         if(this.state.myOrders)
             oids = Object.keys(this.state.myOrders)
         for(let i=0; i<oids.length; i++)
+
         if(this.state.orders 
             && this.state.orders!==null 
             && this.state.orders[oids[i]]
@@ -138,8 +193,33 @@ export default class Received extends React.Component {
     render()
     {
         return (
-        <View style={{width:'100%', height:'100%'}}>
-            {this.renderItems()}
+        <View>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={this.state.chooseReason}
+                onRequestClose={() => this.setState({ chooseReason: false })}
+            >
+                <View style={{
+                    height: '40%',width: '80%', backgroundColor: '#fdfdfd', marginTop: '50%',
+                    alignSelf: 'center', borderRadius: 10, elevation: 10
+                    }}>
+                    <TouchableOpacity onPress={() => this.setState({ chooseReason: false })}>
+                        <Text style={{ textAlign: 'right', margin: 3, marginRight: 7, fontSize: 20, color: '#999'}}>x</Text>
+                    </TouchableOpacity>
+                    <Text style={{ textAlign: 'center', margin: 4, color: '#f58e84'}}>Reason for Rejecting order ...</Text>
+                    <View style={{ height: '100%', width: '100%'}}>
+                        <ScrollView>
+                            {this.renderOptions()}
+                        </ScrollView>
+                    </View>
+                </View>
+            </Modal>
+            <View style={{ height: '100%', width: '100%', paddingTop: '2%'}}>
+                <ScrollView>
+                    {this.renderItems()}
+                </ScrollView>
+            </View>
         </View>
         );
     }
