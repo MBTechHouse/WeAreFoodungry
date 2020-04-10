@@ -122,8 +122,9 @@ export default class Signup extends Component {
         firebase.database().ref().child('restaurants').child(firebase.auth().currentUser.uid).set({
             email: this.state.email,
             name: this.state.name,
-            phone: this.state.phone
-          },()=>{this.props.navigation.navigate('Orders')})
+            phone: this.state.phone,
+            verified: false
+          },()=>{this.props.navigation.navigate('VerifyRestaurant')})
     })
      .catch(() => this.setState({hasError: true, errorText: 'Invalid Credentials !', loading: false }));
   }

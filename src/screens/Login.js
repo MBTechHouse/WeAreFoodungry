@@ -28,7 +28,7 @@ export default class Login extends Component {
   componentDidMount() {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
-          this.props.navigation.navigate('Orders');
+          this.props.navigation.navigate('VerifyRestaurant');
         } else {
           this.setState({ loggedIn: false });
         }
@@ -40,7 +40,7 @@ export default class Login extends Component {
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
     .then(() => {
       this.setState({ loading: false, email: '', password: '' });
-      this.props.navigation.navigate('Orders');
+      this.props.navigation.navigate('VerifyRestaurant');
     })
      .catch(() => this.setState({hasError: true, errorText: 'Invalid Credentials !', loading: false }));
   }

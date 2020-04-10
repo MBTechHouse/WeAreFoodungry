@@ -16,6 +16,7 @@ import Profile from '../screens/Profile'
 import Login from '../screens/Login.js'
 import Signup from '../screens/Signup.js'
 import ManageItems from '../screens/ManageItems'
+import VerifyRestaurant from '../screens/VerifyRestaurant'
 
 const OrdersNavigator = createMaterialTopTabNavigator ({
   Received: {
@@ -113,6 +114,7 @@ const BottomNavigator = createBottomTabNavigator({
 const MainNav = createStackNavigator({
   Login: Login,
   Signup: Signup,
+  VerifyRestaurant: VerifyRestaurant,
   MainFlow: BottomNavigator},
   {
     initialRouteName: 'Login',
