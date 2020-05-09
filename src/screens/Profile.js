@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Button, Layout, Text } from 'react-native-ui-kitten';
-import SettingsScreen from './Profile'
+import SettingsScreen from './Profile/Profile'
 import contactData from './Profile/contact.json'
 
 export default class Profile extends React.Component{
@@ -9,7 +9,7 @@ export default class Profile extends React.Component{
   {
   return(
   <Layout style={styles.container}>
-    <SettingsScreen {...contactData} />
+    <SettingsScreen {...contactData} navigation={this.props.navigation} />
   </Layout>
   )
   }

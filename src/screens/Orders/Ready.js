@@ -16,7 +16,7 @@ export default class Received extends React.Component {
         .on('value', o => {
             firebase.database().ref('restaurants/'+firebase.auth().currentUser.uid+'/myOrders')
             .on('value', mo => {
-                if(o && mo)
+                if(o.val()!==undefined && mo.val() !==undefined && o.val()!==null && mo.val() !== null)
                     this.setState({ orders: o.val(), myOrders: mo.val() }, () => {
                         let oids = Object.keys(this.state.myOrders)
                         let temp = {}

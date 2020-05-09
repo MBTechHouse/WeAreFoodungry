@@ -28,6 +28,7 @@ export default class Login extends Component {
   componentDidMount() {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
+          console.log(user)
           this.props.navigation.navigate('VerifyRestaurant');
         } else {
           this.setState({ loggedIn: false });
