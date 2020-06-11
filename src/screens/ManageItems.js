@@ -11,6 +11,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { Overlay, Input, Button } from 'react-native-elements';
 import Fontisto from 'react-native-vector-icons/Fontisto'
+import moment from 'moment';
 
 const ViewportAwareView = Viewport.Aware(View)
 
@@ -163,7 +164,7 @@ export default class ManageItems extends React.Component{
       let title = this.state.foodItemName
       let description = this.state.foodItemDescription
       let actualPrice = this.state.foodItemActualPrice
-      let currentEpochTime = Date.now()
+      let currentEpochTime = moment().valueOf()
       if(title!=="" && actualPrice!=="") {
         if(/^\d+$/.test(actualPrice)) {
             let itemObject = {} 
@@ -198,7 +199,7 @@ export default class ManageItems extends React.Component{
   }
 
   addCategory(categoryName) {
-    let currentEpochTime = Date.now()
+    let currentEpochTime = moment().valueOf()
     let items = {...this.state.items}
     let categoryList = [...this.state.categoryList]
     let categoryId = `category_${currentEpochTime}`

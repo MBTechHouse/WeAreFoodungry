@@ -12,10 +12,10 @@ import Received from '../screens/Orders/Received.js'
 import Preparing from '../screens/Orders/Preparing.js'
 import Ready from '../screens/Orders/Ready.js'
 import Completed from '../screens/Orders/Completed.js'
-import Profile from '../screens/Profile'
+import Profile from '../screens/Profile.js'
 import Login from '../screens/Login.js'
 import Signup from '../screens/Signup.js'
-import ManageItems from '../screens/ManageItems'
+import ManageItems from '../screens/ManageItems.js'
 
 const OrdersNavigator = createMaterialTopTabNavigator ({
   Received: {
@@ -73,7 +73,7 @@ const BottomNavigator = createBottomTabNavigator({
     navigationOptions: ({navigation}) =>({
       tabBarIcon:({ focused, horizontal, tintColor }) => {
         if (navigation.state.routeName === "ManageItems") {
-          return <Icon name='clipboard-outline' width={25} height={25} tintColor={focused?'#55C2FF':'#fdfdfd'} />
+          return <Icon name='book-open-outline' width={25} height={25} tintColor={focused?'#55C2FF':'#fdfdfd'} />
         }
       }
     })
@@ -83,7 +83,7 @@ const BottomNavigator = createBottomTabNavigator({
     navigationOptions: ({navigation}) =>({
       tabBarIcon:({ focused }) => {
         if (navigation.state.routeName === "Orders") {
-          return <Icon name='edit-2-outline' width={25} height={25} tintColor={focused?'#55C2FF':'#fdfdfd'} />
+          return <Icon name='clipboard-outline' width={25} height={25} tintColor={focused?'#55C2FF':'#fdfdfd'} />
         }
       }
     })
