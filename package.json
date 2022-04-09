@@ -14,7 +14,7 @@
     "@skele/components": "^1.0.0-alpha.40",
     "@ui-kitten/eva-icons": "^4.2.0",
     "firebase": "^7.6.2",
-    "moment": "^2.26.0",
+    "moment": "^2.29.2",
     "native-base": "2.13.4",
     "prop-types": "^15.6.0",
     "react": "16.9.0",
