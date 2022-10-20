@@ -23,7 +23,7 @@
     "react-native-gesture-handler": "^1.5.0",
     "react-native-get-random-values": "^1.3.1",
     "react-native-parallax-scroll-view": "^0.21.3",
-    "react-native-reanimated": "^1.4.0",
+    "react-native-reanimated": "^2.10.0",
     "react-native-screens": "^2.0.0-alpha.32",
     "react-native-shadow": "^1.2.2",
     "react-native-snap-carousel": "^3.8.4",
